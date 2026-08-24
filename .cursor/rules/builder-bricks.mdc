@@ -1,0 +1,23 @@
+---
+description: Builder Bricks visual identity, architecture, and quality standards for all future agent work
+alwaysApply: true
+---
+
+# Builder Bricks Project Rules
+
+Preserve the Builder Bricks visual identity: Obsidian, Warm Ivory, Brick Terracotta, Concrete, Sage, Charcoal, and Muted White via CSS variables. Keep the experience original—do not copy Lusion or other agencies’ layouts, copy, assets, or motion systems.
+
+## Architecture
+
+- Prefer TypeScript strict mode; avoid `any` unless documented and unavoidable.
+- Keep company content in central data files under `data/`—do not hardcode site/contact/project copy in components.
+- Default to Server Components; add `"use client"` only for interaction, animation, or browser APIs.
+- Use GSAP (`@gsap/react` / ScrollTrigger) for major scroll and entrance animation. Clean up every tween, timeline, and ScrollTrigger on unmount.
+- One Lenis instance via `SmoothScrollProvider`; keep it synced with ScrollTrigger.
+- Respect `prefers-reduced-motion` and disable the custom cursor on touch / coarse pointers.
+
+## Accessibility & quality
+
+- Maintain keyboard access, focus styles, Escape handling for overlays, and semantic heading structure.
+- After meaningful changes, run `npm run lint` and `npm run build`. Fix errors before finishing.
+- Never leave the website in a broken state (failed build, broken routes, or unfinished placeholder sections).
