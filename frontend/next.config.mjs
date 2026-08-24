@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const nextConfig = {
+  // Keep Turbopack rooted in frontend/ when a parent lockfile exists
+  turbopack: {
+    root: __dirname,
+  },
   // Hide the Next.js "N" floating badge in development
   devIndicators: false,
   images: {

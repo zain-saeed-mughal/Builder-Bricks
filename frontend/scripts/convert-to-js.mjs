@@ -18,7 +18,7 @@ const SKIP = new Set([
   ".next",
   ".git",
   "scripts",
-  "server",
+  "backend",
 ]);
 
 function walk(dir, files = []) {

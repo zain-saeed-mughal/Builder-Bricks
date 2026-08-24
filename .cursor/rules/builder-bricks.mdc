@@ -10,7 +10,7 @@ Preserve the Builder Bricks visual identity: Obsidian, Warm Ivory, Brick Terraco
 ## Architecture
 
 - Prefer TypeScript strict mode; avoid `any` unless documented and unavoidable.
-- Keep company content in central data files under `data/`—do not hardcode site/contact/project copy in components.
+- Keep company content in central data files under `frontend/data/`—do not hardcode site/contact/project copy in components.
 - Default to Server Components; add `"use client"` only for interaction, animation, or browser APIs.
 - Use GSAP (`@gsap/react` / ScrollTrigger) for major scroll and entrance animation. Clean up every tween, timeline, and ScrollTrigger on unmount.
 - One Lenis instance via `SmoothScrollProvider`; keep it synced with ScrollTrigger.

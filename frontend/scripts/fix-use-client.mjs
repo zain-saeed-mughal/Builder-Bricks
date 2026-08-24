@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SKIP = new Set(["node_modules", ".next", ".git", "scripts", "server"]);
+const SKIP = new Set(["node_modules", ".next", ".git", "scripts", "backend"]);
 
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

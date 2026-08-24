@@ -26,7 +26,7 @@ Builder Bricks is a production-oriented marketing site for residential and comme
 | Area | Library |
 | --- | --- |
 | Frontend | Next.js 16 (App Router), React 19, **JavaScript** |
-| Backend API | **Node.js + Express** (`server/index.js`) |
+| Backend API | **Node.js + Express** (`backend/index.js`) |
 | Styling | Tailwind CSS v4 |
 | Motion | GSAP, `@gsap/react`, ScrollTrigger |
 | Smooth scroll | Lenis |
@@ -37,13 +37,13 @@ Builder Bricks is a production-oriented marketing site for residential and comme
 ## Getting started
 
 ```bash
-npm install
+npm run install:all
 npm run dev
 ```
 
 This starts:
-- Next.js UI on **http://localhost:3000**
-- Express API on **http://localhost:4000**
+- Next.js UI on **http://localhost:3000** (`frontend/`)
+- Express API on **http://localhost:4000** (`backend/`)
 
 Contact form posts to `/api/contact` (proxied to Express).
 
@@ -60,57 +60,47 @@ npm start
 
 ```bash
 npm run lint
-npx tsc --noEmit
 npm run build
 ```
 
 ## Folder structure
 
 ```text
-app/                    # Routes, layout, SEO, API
-components/
-  animations/           # TextReveal, ImageReveal
-  common/               # Buttons, headings, counters
-  forms/                # ContactForm
-  layout/               # Header, footer, preloader, cursor
-  projects/             # Cards, filters, gallery, lightbox
-  providers/            # Lenis, motion, transitions
-  sections/             # Homepage sections
-  services/             # Services page client UI
-  three/                # Hero R3F scene
-data/                   # Central typed content
-hooks/                  # Media / UI hooks
-lib/                    # Utils, SEO, validation
-types/                  # Shared TypeScript types
-public/images/          # Static assets / OG image
+frontend/               # Next.js App Router site
+  app/                  # Routes, layout, SEO
+  components/           # UI, animations, sections, forms
+  data/                 # Central company content
+  hooks/                # Media / UI hooks
+  lib/                  # Utils, SEO, validation
+  public/               # Static assets / videos / images
+backend/                # Express API (contact, etc.)
 .cursor/rules/          # Persistent agent rules
 ```
 
 ## Replacing project data
 
-All sample company content lives under `data/`:
+All sample company content lives under `frontend/data/`:
 
 | File | Contents |
 | --- | --- |
-| `data/site.ts` | Brand, CTAs, navigation, contact, process, philosophy |
-| `data/projects.ts` | Projects, galleries, filters helpers |
-| `data/services.ts` | Service offerings |
-| `data/content.ts` | Testimonials, stats, team, timeline |
-| `data/testimonials.ts` | Re-exports content collections |
+| `frontend/data/site.js` | Brand, CTAs, navigation, contact, process, philosophy |
+| `frontend/data/projects.js` | Projects, galleries, filters helpers |
+| `frontend/data/services.js` | Service offerings |
+| `frontend/data/content.js` | Testimonials, stats, team, timeline |
 
 Search for `SAMPLE` / `Replace` comments before launch. Update `siteConfig.url`, email, phone, and address first.
 
 ## Replacing images
 
-1. Add production images under `public/images/projects/{slug}/`.
-2. Update `coverImage` and `gallery` entries in `data/projects.ts`.
+1. Add production images under `frontend/public/images/projects/{slug}/`.
+2. Update `coverImage` and `gallery` entries in `frontend/data/projects.js`.
 3. Keep accurate `width` / `height` and descriptive `alt` text.
-4. Remote Unsplash placeholders are allowed via `next.config.ts` `images.remotePatterns` — remove when fully local.
+4. Remote Unsplash placeholders are allowed via `frontend/next.config.mjs` `images.remotePatterns` — remove when fully local.
 
 ## Connecting the contact form
 
-1. Client: `components/forms/ContactForm.tsx` posts to `/api/contact`.
-2. Server: `app/api/contact/route.ts` validates with `contactFormSchema`.
+1. Client: `frontend/components/forms/ContactForm.jsx` posts to `/api/contact`.
+2. Server: `backend/index.js` validates with Zod and handles delivery.
 3. At the marked integration point, connect Resend, SendGrid, SES, or a CRM webhook.
 4. Store API keys in environment variables only — never in frontend code.
 

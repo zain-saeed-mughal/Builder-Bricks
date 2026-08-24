@@ -19,5 +19,6 @@
     }
   },
   "include": ["**/*.js", "**/*.jsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "server"]
+  "exclude": ["node_modules"]
 }
+

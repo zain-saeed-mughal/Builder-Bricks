@@ -17,7 +17,7 @@ const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const SKIP = new Set(["node_modules", ".next", ".git", "scripts", "server"]);
+const SKIP = new Set(["node_modules", ".next", ".git", "scripts", "backend"]);
 
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -122,7 +122,7 @@ function fixFile(file) {
 }
 
 // Ensure babel packages for traverse/generator/types/parser
-const files = walk(root).filter((f) => !f.includes(`${path.sep}server${path.sep}`));
+const files = walk(root).filter((f) => !f.includes(`${path.sep}backend${path.sep}`));
 let count = 0;
 for (const file of files) {
   try {
