@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+/** Repo root — parent lockfile + the path Vercel injects as `outputFileTracingRoot`. */
+const monorepoRoot = path.join(__dirname, "..");
 
 /**
  * Origin of the Express API that serves /api/contact.
@@ -20,10 +22,12 @@ if (!apiOrigin) {
 }
 
 const nextConfig = {
-  // Root the project in frontend/ even though the monorepo lockfile sits one level up.
-  // Next derives the Turbopack root from this too, so setting `turbopack.root` as well
-  // would collide with the `outputFileTracingRoot` that Vercel injects at build time.
-  outputFileTracingRoot: __dirname,
+  // Keep these identical. Vercel also sets `outputFileTracingRoot` to the clone
+  // root; pointing both here prevents the mismatch that fails the deploy.
+  outputFileTracingRoot: monorepoRoot,
+  turbopack: {
+    root: monorepoRoot,
+  },
   // Hide the Next.js "N" floating badge in development
   devIndicators: false,
   images: {
