@@ -100,16 +100,22 @@ Search for `SAMPLE` / `Replace` comments before launch. Update `siteConfig.url`,
 ## Connecting the contact form
 
 1. Client: `frontend/components/forms/ContactForm.jsx` posts to `/api/contact`.
-2. Server: `backend/index.js` validates with Zod and handles delivery.
-3. At the marked integration point, connect Resend, SendGrid, SES, or a CRM webhook.
-4. Store API keys in environment variables only — never in frontend code.
+2. Proxy: `frontend/next.config.mjs` rewrites `/api/*` to the origin in `API_ORIGIN`.
+3. Server: `backend/index.js` validates with Zod and handles delivery.
+4. At the marked integration point, connect Resend, SendGrid, SES, or a CRM webhook.
+5. Store API keys in environment variables only — never in frontend code.
 
-Example env (server-only):
+Copy `.env.example` and fill it in. Server-only values:
 
 ```bash
+API_ORIGIN=https://api.your-domain.com
 CONTACT_TO_EMAIL=hello@yourdomain.com
 RESEND_API_KEY=re_xxx
 ```
+
+`API_ORIGIN` only falls back to `http://localhost:4000` during local development. If it
+is missing in a deployed environment the rewrite is skipped and `/api/contact` returns
+404, so set it wherever the site is hosted.
 
 ## Animations
 
@@ -129,10 +135,17 @@ RESEND_API_KEY=re_xxx
 ## Deployment
 
 1. Set `siteConfig.url` to the production domain.
-2. Deploy to Vercel, Netlify, or any Node host supporting Next.js.
-3. Configure env vars for contact delivery.
+2. Deploy to Vercel, Netlify, or any Node host supporting Next.js. On Vercel set the
+   project **Root Directory** to `frontend`.
+3. Deploy `backend/` separately and set `API_ORIGIN` to its public URL, plus the env
+   vars for contact delivery.
 4. Verify `/sitemap.xml` and `/robots.txt`.
 5. Run Lighthouse on mobile and desktop after deploy.
+
+The Express API only allows browser origins `localhost:3000` / `127.0.0.1:3000`
+(`backend/index.js`). Requests routed through the Next.js rewrite are server-to-server
+so CORS does not apply, but widen that list before calling the API directly from a
+deployed browser origin.
 
 ## Performance notes
 
